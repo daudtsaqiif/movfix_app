@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => PopularCubit()),
+        BlocProvider(create: (BuildContext context) => GenreCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

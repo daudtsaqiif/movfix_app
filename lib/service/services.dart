@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:movfix_app/model/models.dart';
 
+part 'genre.dart';
 part 'movie.dart';
 
+
+
 String baseURL = 'https://api.themoviedb.org/3';
-var token = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MDhlZWZiYmRkYmNlNTBiNjdiMjlkZmJkMjY1ZjEzZSIsIm5iZiI6MTczNjkyMjk5OC4yMDEsInN1YiI6IjY3ODc1Nzc2ZWU4NGZhNGRlZjdiZTRkZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mt7u-rqZ24vhXAQpPL1qgn8WzB-yBgvNGQWvgT3HDPI';
+var token = '508eefbbddbce50b67b29dfbd265f13e';
 
 class ApiServices {
   static headersGet({String? token}) {
