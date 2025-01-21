@@ -6,3 +6,4 @@ part 'ApiService.dart';
 part 'movie.dart';
 part 'popular_movie.dart';
 part 'genre.dart';
+part 'images.dart';

@@ -9,6 +9,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Genre> genreMap = [];
+  Images? images;
+
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              CardMovie(genre: genreMap,),
+              CardMovie(genre: genreMap, images: images),
             ],
           ),
         ),

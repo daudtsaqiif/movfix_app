@@ -1,10 +1,11 @@
 part of 'pages.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key, this.movie, this.genre});
+  const DetailPage({super.key, this.movie, this.genre, this.images});
 
   final Movie? movie;
   final List<Genre>? genre;
+  final Images? images;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -18,6 +19,7 @@ class _DetailPageState extends State<DetailPage> {
     genre = widget.genre!
         .where((g) => widget.movie!.genre!.contains(g.id))
         .toList();
+    context.read<ImagesCubit>().getImages(widget.movie!.id);
     super.initState();
   }
 
@@ -27,6 +29,7 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: const Color.fromARGB(255, 10, 10, 10),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
@@ -298,9 +301,54 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    'Picture',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<ImagesCubit, ImagesState>(
+                  builder: (context, state) {
+                    if (state is ImagesLoaded) {
+                      List<Images> images = state.images;
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: images
+                                .take(10)
+                                .map((e) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: 240,
+                                        height: 135,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    "https://image.tmdb.org/t/p/w500/${e.images}"))),
+                                      ),
+                                    ))
+                                .toList()),
+                      );
+                    } else if (state is ImagesLoadingFailed) {
+                      return Text('Error: ${state.massage}');
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
                 )
               ],
-            )
+            ),
           ],
         ),
       ),

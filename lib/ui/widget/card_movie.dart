@@ -5,10 +5,12 @@ import 'package:movfix_app/model/models.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 class CardMovie extends StatefulWidget {
-  const CardMovie({super.key, this.popular, this.genre});
+  const CardMovie({super.key, this.popular, this.genre, this.images});
 
   final PopularMovie? popular;
   final List<Genre>? genre;
+  final Images? images;
+
 
   @override
   State<CardMovie> createState() => _CardMovieState();
@@ -68,12 +70,10 @@ class _CardMovieState extends State<CardMovie> {
                           borderRadius: BorderRadius.circular(16),
                           child: Stack(
                             children: [
-                              Image.network(
-                                'https://image.tmdb.org/t/p/w500/${movie.image}',
+                              Image.network( 'https://image.tmdb.org/t/p/w500/${movie.image}',
                                 width: 130,
                                 height: 100,
-                                fit: BoxFit.cover,
-                              ),
+                                fit: BoxFit.cover,),
                               // Rank (position) on top-right corner
                               Positioned(
                                 top: 8,

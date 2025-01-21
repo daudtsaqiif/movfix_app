@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movfix_app/cubit/cubit.dart';
+import 'package:movfix_app/cubit/images_cubit.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (BuildContext context) => PopularCubit()),
         BlocProvider(create: (BuildContext context) => GenreCubit()),
+        BlocProvider(create: (BuildContext context) => ImagesCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
