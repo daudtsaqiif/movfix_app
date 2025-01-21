@@ -1,11 +1,12 @@
 part of 'pages.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key, this.movie, this.genre, this.images});
+  const DetailPage({super.key, this.movie, this.genre, this.images, this.cast});
 
   final Movie? movie;
   final List<Genre>? genre;
   final Images? images;
+  final Cast? cast;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -20,6 +21,7 @@ class _DetailPageState extends State<DetailPage> {
         .where((g) => widget.movie!.genre!.contains(g.id))
         .toList();
     context.read<ImagesCubit>().getImages(widget.movie!.id);
+    context.read<CastCubit>().getCast(widget.movie!.id);
     super.initState();
   }
 
@@ -346,9 +348,111 @@ class _DetailPageState extends State<DetailPage> {
                       return CircularProgressIndicator();
                     }
                   },
-                )
+                ),
               ],
             ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    'Overview',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: ReadMoreText(
+                    widget.movie?.overview ?? 'No Overview',
+                    trimLines: 3,
+                    textAlign: TextAlign.justify,
+                    trimMode: TrimMode.Line,
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    'Cast',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<CastCubit, CastState>(
+                  builder: (context, state) {
+                    if (state is CastLoaded) {
+                      List<Cast> cast = state.casts;
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: cast
+                              .map((e) => Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Container(
+                                          width: 135,
+                                          height: 135,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                "https://image.tmdb.org/t/p/w500/${e.pict}",
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.2),
+                                                blurRadius: 8,
+                                                offset: Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        e.name ?? 'No Name',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        e.character ?? 'No Name',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ))
+                              .toList(),
+                        ),
+                      );
+                    } else if (state is CastLoadingFailed) {
+                      return Text('Error: ${state.massage}');
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),

@@ -43,6 +43,7 @@ dependencies:
   equatable: ^2.0.7
   http: ^1.2.2
   carousel_slider: ^5.0.0
+  readmore: ^3.0.0
 
 dev_dependencies:
   flutter_test:
