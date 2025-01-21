@@ -208,91 +208,96 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Title: ',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 129, 129, 129),
-                              fontSize: 14),
-                        ),
-                        Text(
-                          widget.movie?.title ?? 'No Title',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Release Date: ',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 129, 129, 129),
-                              fontSize: 14),
-                        ),
-                        Text(
-                          widget.movie?.release ?? 'No Release Date',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Rate: ',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 129, 129, 129),
-                              fontSize: 14),
-                        ),
-                        Text(
-                          widget.movie?.rating?.toStringAsFixed(1) ??
-                              'No Rating',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Language: ',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 129, 129, 129),
-                              fontSize: 14),
-                        ),
-                        Text(
-                          widget.movie?.language ?? 'No Language',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Genre: ',
-                          style: TextStyle(
-                              color: const Color.fromARGB(255, 129, 129, 129),
-                              fontSize: 14),
-                        ),
-                        Wrap(
-                          spacing: 3,
-                          children: genre
-                              .map(
-                                (e) => Text(
-                                  e.name!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Title: ',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 129, 129, 129),
+                                fontSize: 14),
+                          ),
+                          Text(
+                            widget.movie?.title ?? 'No Title',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Release Date: ',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 129, 129, 129),
+                                fontSize: 14),
+                          ),
+                          Text(
+                            widget.movie?.release ?? 'No Release Date',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Rate: ',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 129, 129, 129),
+                                fontSize: 14),
+                          ),
+                          Text(
+                            widget.movie?.rating?.toStringAsFixed(1) ??
+                                'No Rating',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Language: ',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 129, 129, 129),
+                                fontSize: 14),
+                          ),
+                          Text(
+                            widget.movie?.language ?? 'No Language',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Genre: ',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 129, 129, 129),
+                                fontSize: 14),
+                          ),
+                          Expanded(
+                            child: Wrap(
+                              spacing: 3,
+                              children: genre
+                                  .map(
+                                    (e) => Text(
+                                      e.name!,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             )
