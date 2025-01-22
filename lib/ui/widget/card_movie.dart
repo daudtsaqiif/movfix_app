@@ -5,12 +5,14 @@ import 'package:movfix_app/model/models.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 class CardMovie extends StatefulWidget {
-  const CardMovie({super.key, this.popular, this.genre, this.images, this.cast});
+  const CardMovie({super.key, this.popular, this.genre, this.images, this.cast, this.detailMove,});
 
   final PopularMovie? popular;
   final List<Genre>? genre;
   final Images? images;
   final Cast? cast;
+  final DetailMove? detailMove;
+
 
 
   @override
@@ -46,6 +48,7 @@ class _CardMovieState extends State<CardMovie> {
                       builder: (context) => DetailPage(
                         movie: movie,
                         genre: widget.genre,
+
                       ),
                     ),
                   );

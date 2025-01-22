@@ -1,12 +1,20 @@
 part of 'pages.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key, this.movie, this.genre, this.images, this.cast});
+  const DetailPage({
+    super.key,
+    this.movie,
+    this.genre,
+    this.images,
+    this.cast,
+    this.detailMove,
+  });
 
   final Movie? movie;
   final List<Genre>? genre;
   final Images? images;
   final Cast? cast;
+  final DetailMove? detailMove;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -22,6 +30,7 @@ class _DetailPageState extends State<DetailPage> {
         .toList();
     context.read<ImagesCubit>().getImages(widget.movie!.id);
     context.read<CastCubit>().getCast(widget.movie!.id);
+    context.read<DetailMovieCubit>().getDetailMovie(widget.movie!.id!);
     super.initState();
   }
 
@@ -33,6 +42,7 @@ class _DetailPageState extends State<DetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //title
             Stack(
               children: [
                 ShaderMask(
@@ -58,7 +68,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 Positioned(
-                  top: 240,
+                  top: 220,
                   left: 10,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,34 +89,61 @@ class _DetailPageState extends State<DetailPage> {
                             fontSize: 30,
                             fontWeight: FontWeight.w400),
                       ),
-                      Wrap(
-                        spacing: 6,
-                        children: genre
-                            .map(
-                              (e) => Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(79, 48, 47, 47),
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 0.5,
-                                  ),
+                      BlocBuilder<DetailMovieCubit, DetailMovieState>(
+                          builder: (context, state) {
+                        if (state is DetailMovieLoaded) {
+                          DetailMove detailMove = state.detail;
+                          return Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(150, 48, 47, 47),
+                                  Color.fromARGB(255, 24, 23, 23),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.8),
+                                width: 0.8,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(
-                                    e.name!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 15.0),
+                              child: Text(
+                                detailMove.tagline ?? "No Tagline Available",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      blurRadius: 4,
+                                      offset: Offset(1, 2),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                            )
-                            .toList(),
-                      ),
+                            ),
+                          );
+                        } else if (state is DetailMovieLoadingFailed) {
+                          return Text('Error ${state.massage}');
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      }),
                     ],
                   ),
                 ),
@@ -120,6 +157,7 @@ class _DetailPageState extends State<DetailPage> {
                 thickness: 0.7,
               ),
             ),
+            //rating
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -200,6 +238,7 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             const SizedBox(height: 20),
+            //poster
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -245,35 +284,32 @@ class _DetailPageState extends State<DetailPage> {
                           )
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            'Rate: ',
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 129, 129, 129),
-                                fontSize: 14),
-                          ),
-                          Text(
-                            widget.movie?.rating?.toStringAsFixed(1) ??
-                                'No Rating',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Language: ',
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 129, 129, 129),
-                                fontSize: 14),
-                          ),
-                          Text(
-                            widget.movie?.language ?? 'No Language',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )
-                        ],
-                      ),
+                      BlocBuilder<DetailMovieCubit, DetailMovieState>(
+                          builder: (context, state) {
+                        if (state is DetailMovieLoaded) {
+                          DetailMove detailMove = state.detail;
+                          return Row(
+                            children: [
+                              Text(
+                                'Runtime: ',
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 129, 129, 129),
+                                    fontSize: 14),
+                              ),
+                              Text(
+                                '${detailMove.runtime} minutes',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ],
+                          );
+                        } else if (state is DetailMovieLoadingFailed) {
+                          return Text('Error ${state.massage}');
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      }),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -301,12 +337,55 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ],
                       ),
+                      BlocBuilder<DetailMovieCubit, DetailMovieState>(
+                          builder: (context, state) {
+                        if (state is DetailMovieLoaded) {
+                          DetailMove detailMove = state.detail;
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Spoken Language: ',
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 129, 129, 129),
+                                    fontSize: 14),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 3.0),
+                                  child: Wrap(
+                                    spacing: 3,
+                                    children: detailMove.spokenLanguage!
+                                        .map(
+                                          (e) => Text(
+                                            e.lang!,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else if (state is DetailMovieLoadingFailed) {
+                          return Text('Error ${state.massage}');
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      }),
                     ],
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
+            //pict
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -352,6 +431,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 20),
+            //overview
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -376,6 +456,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 20),
+            //cast
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -398,10 +479,11 @@ class _DetailPageState extends State<DetailPage> {
                               .map((e) => Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: Container(
-                                          width: 135,
-                                          height: 135,
+                                          width: 80,
+                                          height: 80,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
@@ -422,21 +504,29 @@ class _DetailPageState extends State<DetailPage> {
                                         ),
                                       ),
                                       SizedBox(height: 5),
-                                      Text(
-                                        e.name ?? 'No Name',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        e.character ?? 'No Name',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              e.name ?? 'No Name',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              e.character ?? 'No Char',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -452,7 +542,94 @@ class _DetailPageState extends State<DetailPage> {
                   },
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 20),
+            //Product Company
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    'Product Company',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<DetailMovieCubit, DetailMovieState>(
+                    builder: (context, state) {
+                  if (state is DetailMovieLoaded) {
+                    DetailMove detailMove = state.detail;
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: detailMove.productionCompanies!
+                              .map(
+                                (e) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 120,
+                                    height: 125,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.white.withOpacity(0.8),
+                                        width: 0.8,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.3),
+                                          blurRadius: 8,
+                                          offset: Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 73,
+                                          height: 64,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                "https://image.tmdb.org/t/p/w500/${e.logo}",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          child: Text(
+                                            e.name ?? 'No Name',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList()),
+                    );
+                  } else if (state is DetailMovieLoadingFailed) {
+                    return Text('Error ${state.massage}');
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }),
+              ],
+            ),
+            const SizedBox(height: 20),
+            
           ],
         ),
       ),
