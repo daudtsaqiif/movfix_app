@@ -8,6 +8,7 @@ class DetailPage extends StatefulWidget {
     this.images,
     this.cast,
     this.detailMove,
+    this.recommendation,
   });
 
   final Movie? movie;
@@ -15,6 +16,7 @@ class DetailPage extends StatefulWidget {
   final Images? images;
   final Cast? cast;
   final DetailMove? detailMove;
+  final RecommendationMovie? recommendation;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -31,6 +33,7 @@ class _DetailPageState extends State<DetailPage> {
     context.read<ImagesCubit>().getImages(widget.movie!.id);
     context.read<CastCubit>().getCast(widget.movie!.id);
     context.read<DetailMovieCubit>().getDetailMovie(widget.movie!.id!);
+    context.read<RecomendationCubit>().getRecomendation(widget.movie!.id);
     super.initState();
   }
 
@@ -627,6 +630,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
             const SizedBox(height: 20),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
@@ -635,7 +639,47 @@ class _DetailPageState extends State<DetailPage> {
                     style: TextStyle(color: Colors.white, fontSize: 17),
                   ),
                 ),
-                
+                BlocBuilder<RecomendationCubit, RecomendationState>(
+                  builder: (context, state) {
+                    if (state is RecomendationInitial) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is RecomendationLoaded) {
+                      List<Movie> recommendations = state.recomendations;
+                      return GestureDetector(
+                        
+                        child: SizedBox(
+                          height: 170,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                recommendations.length.clamp(0, 7), // Limit to 7
+                            itemBuilder: (context, index) {
+                              final movie = recommendations[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://image.tmdb.org/t/p/w500/${movie.image}'),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    } else if (state is RecomendationLoadingFailed) {
+                      return Center(child: Text('Error: ${state.massage}'));
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                )
               ],
             ),
           ],

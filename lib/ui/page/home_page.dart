@@ -12,6 +12,8 @@ class _HomePageState extends State<HomePage> {
   Images? images;
   Cast? cast;
   DetailMove? detailMove;
+  RecommendationMovie? recommendation;
+
 
 
 
@@ -47,7 +49,8 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              CardMovie(genre: genreMap, images: images, cast: cast, detailMove: detailMove,),
+              CardMovie(genre: genreMap, images: images, cast: cast, detailMove: detailMove, recommendation: recommendation,),
+              SizedBox(height: 20),
             ],
           ),
         ),
