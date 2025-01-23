@@ -243,8 +243,8 @@ class _DetailPageState extends State<DetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 150,
-                  height: 200,
+                  width: 135,
+                  height: 175,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
@@ -258,12 +258,12 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'Title: ',
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 129, 129, 129),
-                                fontSize: 14),
-                          ),
+                          // Text(
+                          //   'Title: ',
+                          //   style: TextStyle(
+                          //       color: const Color.fromARGB(255, 129, 129, 129),
+                          //       fontSize: 14),
+                          // ),
                           Text(
                             widget.movie?.title ?? 'No Title',
                             style: TextStyle(color: Colors.white, fontSize: 16),
@@ -272,12 +272,12 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       Row(
                         children: [
-                          Text(
-                            'Release Date: ',
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 129, 129, 129),
-                                fontSize: 14),
-                          ),
+                          // Text(
+                          //   'Release Date: ',
+                          //   style: TextStyle(
+                          //       color: const Color.fromARGB(255, 129, 129, 129),
+                          //       fontSize: 14),
+                          // ),
                           Text(
                             widget.movie?.release ?? 'No Release Date',
                             style: TextStyle(color: Colors.white, fontSize: 16),
@@ -290,15 +290,16 @@ class _DetailPageState extends State<DetailPage> {
                           DetailMove detailMove = state.detail;
                           return Row(
                             children: [
+                              // Text(
+                              //   'Runtime: ',
+                              //   style: TextStyle(
+                              //       color: const Color.fromARGB(
+                              //           255, 129, 129, 129),
+                              //       fontSize: 14),
+                              // ),
                               Text(
-                                'Runtime: ',
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 129, 129, 129),
-                                    fontSize: 14),
-                              ),
-                              Text(
-                                '${detailMove.runtime} minutes',
+                                Helper().convertMinutesToString(
+                                    detailMove.runtime ?? 0),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 16),
                               ),
@@ -313,12 +314,12 @@ class _DetailPageState extends State<DetailPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Genre: ',
-                            style: TextStyle(
-                                color: const Color.fromARGB(255, 129, 129, 129),
-                                fontSize: 14),
-                          ),
+                          // Text(
+                          //   'Genre: ',
+                          //   style: TextStyle(
+                          //       color: const Color.fromARGB(255, 129, 129, 129),
+                          //       fontSize: 14),
+                          // ),
                           Expanded(
                             child: Wrap(
                               spacing: 3,
@@ -344,31 +345,27 @@ class _DetailPageState extends State<DetailPage> {
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Spoken Language: ',
-                                style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 129, 129, 129),
-                                    fontSize: 14),
-                              ),
+                              // Text(
+                              //   'Spoken Language: ',
+                              //   style: TextStyle(
+                              //       color: const Color.fromARGB(
+                              //           255, 129, 129, 129),
+                              //       fontSize: 14),
+                              // ),
                               Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 3.0),
-                                  child: Wrap(
-                                    spacing: 3,
-                                    children: detailMove.spokenLanguage!
-                                        .map(
-                                          (e) => Text(
-                                            e.lang!,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                            ),
+                                child: Wrap(
+                                  spacing: 3,
+                                  children: detailMove.spokenLanguage!
+                                      .map(
+                                        (e) => Text(
+                                          e.lang!,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
                                           ),
-                                        )
-                                        .toList(),
-                                  ),
+                                        ),
+                                      )
+                                      .toList(),
                                 ),
                               ),
                             ],
@@ -482,8 +479,8 @@ class _DetailPageState extends State<DetailPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
                                         child: Container(
-                                          width: 80,
-                                          height: 80,
+                                          width: 84,
+                                          height: 84,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
@@ -512,7 +509,7 @@ class _DetailPageState extends State<DetailPage> {
                                             Text(
                                               e.name ?? 'No Name',
                                               style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                               ),
@@ -521,7 +518,7 @@ class _DetailPageState extends State<DetailPage> {
                                             Text(
                                               e.character ?? 'No Char',
                                               style: TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 11,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                               ),
@@ -629,7 +626,18 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 20),
-            
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    'Recommendation',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+                
+              ],
+            ),
           ],
         ),
       ),

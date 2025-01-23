@@ -10,3 +10,4 @@ part 'genre.dart';
 part 'images.dart';
 part 'cast.dart';
 part 'detail_move.dart';
+part 'recommendation.dart';
