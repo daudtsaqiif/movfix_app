@@ -76,85 +76,92 @@ class _DetailPageState extends State<DetailPage> {
                 Positioned(
                   top: 210,
                   left: 10,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                          widget.movie?.release != null
-                              ? DateFormat('yyyy').format(
-                                  DateTime.parse(widget.movie!.release!))
-                              : 'No Year',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500)),
-                      Text(
-                        widget.movie?.title ?? 'No Title',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      BlocBuilder<DetailMovieCubit, DetailMovieState>(
-                          builder: (context, state) {
-                        if (state is DetailMovieLoaded) {
-                          DetailMove detailMove = state.detail;
-                          return Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromARGB(150, 48, 47, 47),
-                                  Color.fromARGB(255, 24, 23, 23),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.8),
-                                width: 0.8,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 15.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: Text(
-                                  detailMove.tagline ?? "No Tagline Available",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.movie?.release != null
+                                ? DateFormat('yyyy').format(
+                                    DateTime.parse(widget.movie!.release!))
+                                : 'No Year',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                widget.movie?.title ?? 'No Title',
+                                style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.2,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        blurRadius: 4,
-                                        offset: Offset(1, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(width: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.3),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.play_arrow,
+                                      color: Colors.white),
+                                  onPressed: () {
+                                    
+                                  },
                                 ),
                               ),
-                            ),
-                          );
-                        } else if (state is DetailMovieLoadingFailed) {
-                          return Text('Error ${state.massage}');
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      }),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          BlocBuilder<DetailMovieCubit, DetailMovieState>(
+                            builder: (context, state) {
+                              if (state is DetailMovieLoaded) {
+                                DetailMove detailMove = state.detail;
+                                return Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.8),
+                                      width: 0.8,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    detailMove.tagline ??
+                                        "No Tagline Available",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              } else if (state is DetailMovieLoadingFailed) {
+                                return Text('Error ${state.massage}',
+                                    style: TextStyle(color: Colors.white));
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -401,7 +408,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     'Picture',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -447,7 +454,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     'Overview',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -472,7 +479,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     'Cast',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -560,7 +567,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     'Product Company',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -637,6 +644,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 20),
+            //Recommendation
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -644,7 +652,7 @@ class _DetailPageState extends State<DetailPage> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
                     'Recommendation Movie',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 BlocBuilder<RecomendationCubit, RecomendationState>(
@@ -736,85 +744,124 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    'Review',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
-                ),
-                BlocBuilder<ReviewCubit, ReviewState>(
-                    builder: (context, state) {
-                  if (state is ReviewLoaded) {
-                    List<Review> reviews = state.reviews;
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: reviews.length.clamp(0, 3),
-                      itemBuilder: (context, index) {
-                        final review = reviews[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.8),
-                              width: 0.8,
+            //Review
+            BlocBuilder<ReviewCubit, ReviewState>(builder: (context, state) {
+              if (state is ReviewLoaded && state.reviews.isNotEmpty) {
+                List<Review> reviews = state.reviews;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Review',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 8,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
                           ),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .start, // Align content to the left
-                              children: [
-                                ListTile(
-                                  // Use ListTile for better structure
-                                  leading: CircleAvatar(
-                                    // Make avatar circular
-                                    backgroundImage: NetworkImage(
-                                      "https://image.tmdb.org/t/p/w500/${review.avatar ?? ''}", // Handle null avatar
-                                    ),
-                                  ),
-                                  title: Text(
-                                    review.author ?? 'No Name',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    review.content ??
-                                        'No Content', // Display review content
-                                    maxLines: 3, // Limit content lines
-                                    overflow: TextOverflow.ellipsis,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ReviewPage(
+                                    movie: widget.movie,
                                   ),
                                 ),
-
-                                // Optional: display rating
-                                if (review.rating != null)
-                                  Row(
-                                    children: [
-                                      Icon(Icons.star, color: Colors.yellow),
-                                      Text(review.rating!.toStringAsFixed(1)),
-                                    ],
+                              );
+                            },
+                            child: Text(
+                              'See more..',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: reviews.length.clamp(0, 1),
+                      itemBuilder: (context, index) {
+                        final review = reviews[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8, bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.8),
+                                width: 0.8,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Align content to the left
+                                children: [
+                                  ListTile(
+                                    // Use ListTile for better structure
+                                    leading: CircleAvatar(
+                                      // Make avatar circular
+                                      backgroundImage: NetworkImage(
+                                        "https://image.tmdb.org/t/p/w500/${review.avatar ?? ''}", // Handle null avatar
+                                      ),
+                                    ),
+                                    title: Text(
+                                      review.author ?? 'No Name',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      review.content ??
+                                          'No Content', // Display review content
+                                      maxLines: 3, // Limit content lines
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                              ]),
+
+                                  // Optional: display rating
+                                  if (review.rating != null)
+                                    Row(
+                                      children: [
+                                        Icon(Icons.star, color: Colors.yellow),
+                                        Text(review.rating!.toStringAsFixed(1)),
+                                      ],
+                                    ),
+                                ]),
+                          ),
                         );
                       },
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                })
-              ],
-            )
+                    ),
+                  ],
+                );
+              } else if (state is ReviewInitial) {
+                return CircularProgressIndicator();
+              } else {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text('No reviews available.',
+                        style: TextStyle(color: Colors.white, fontSize: 18)),
+                  ),
+                );
+              }
+            })
           ],
         ),
       ),

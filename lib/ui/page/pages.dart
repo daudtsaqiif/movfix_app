@@ -17,3 +17,4 @@ import 'package:readmore/readmore.dart';
 
 part 'home_page.dart';
 part 'detail_page.dart';
+part 'review_page.dart';
