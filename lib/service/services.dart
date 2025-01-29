@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:movfix_app/model/models.dart';
 
+
+part 'review.dart';
 part 'detail_movie.dart';
 part 'cast.dart';
 part 'images.dart';

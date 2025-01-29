@@ -5,7 +5,7 @@ import 'package:movfix_app/model/models.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 class CardMovie extends StatefulWidget {
-  const CardMovie({super.key, this.popular, this.genre, this.images, this.cast, this.detailMove, this.recommendation});
+  const CardMovie({super.key, this.popular, this.genre, this.images, this.cast, this.detailMove, this.recommendation, this.review,});
 
   final PopularMovie? popular;
   final List<Genre>? genre;
@@ -13,6 +13,8 @@ class CardMovie extends StatefulWidget {
   final Cast? cast;
   final DetailMove? detailMove;
   final RecommendationMovie? recommendation;
+  final Review? review;
+
 
 
   @override
@@ -49,6 +51,7 @@ class _CardMovieState extends State<CardMovie> {
                         movie: movie,
                         genre: widget.genre,
                         recommendation: widget.recommendation,
+                        
 
                       ),
                     ),

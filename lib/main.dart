@@ -5,6 +5,7 @@ import 'package:movfix_app/cubit/cubit.dart';
 import 'package:movfix_app/cubit/detail_movie_cubit.dart';
 import 'package:movfix_app/cubit/images_cubit.dart';
 import 'package:movfix_app/cubit/recomendation_cubit.dart';
+import 'package:movfix_app/cubit/review_cubit.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 void main() {
@@ -14,7 +15,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ImagesCubit()),
         BlocProvider(create: (BuildContext context) => CastCubit()),
         BlocProvider(create: (BuildContext context) => DetailMovieCubit()),
-        BlocProvider(create: (BuildContext context) => RecomendationCubit())
+        BlocProvider(create: (BuildContext context) => RecomendationCubit()),
+        BlocProvider(create: (BuildContext context) => ReviewCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

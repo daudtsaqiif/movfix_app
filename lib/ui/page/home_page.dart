@@ -13,10 +13,7 @@ class _HomePageState extends State<HomePage> {
   Cast? cast;
   DetailMove? detailMove;
   RecommendationMovie? recommendation;
-
-
-
-
+  Review? review; 
 
   @override
   void initState() {
@@ -49,7 +46,7 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              CardMovie(genre: genreMap, images: images, cast: cast, detailMove: detailMove, recommendation: recommendation,),
+              CardMovie(genre: genreMap, images: images, cast: cast, detailMove: detailMove, recommendation: recommendation, review: review),
               SizedBox(height: 20),
             ],
           ),
