@@ -10,6 +10,7 @@ class DetailPage extends StatefulWidget {
     this.detailMove,
     this.recommendation,
     this.review,
+    this.video,
   });
 
   final Movie? movie;
@@ -19,6 +20,7 @@ class DetailPage extends StatefulWidget {
   final DetailMove? detailMove;
   final RecommendationMovie? recommendation;
   final Review? review;
+  final Video? video;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -37,6 +39,7 @@ class _DetailPageState extends State<DetailPage> {
     context.read<DetailMovieCubit>().getDetailMovie(widget.movie!.id!);
     context.read<RecomendationCubit>().getRecomendation(widget.movie!.id);
     context.read<ReviewCubit>().getReview(widget.movie!.id);
+    context.read<VideoCubit>().getVideo(widget.movie!.id);
     super.initState();
   }
 

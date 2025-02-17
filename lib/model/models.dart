@@ -12,3 +12,6 @@ part 'cast.dart';
 part 'detail_move.dart';
 part 'recommendation.dart';
 part 'review.dart';
+part 'video.dart';
+part 'playing_movie.dart';
+part 'upcoming_movie.dart';

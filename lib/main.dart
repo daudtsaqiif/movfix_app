@@ -6,6 +6,7 @@ import 'package:movfix_app/cubit/detail_movie_cubit.dart';
 import 'package:movfix_app/cubit/images_cubit.dart';
 import 'package:movfix_app/cubit/recomendation_cubit.dart';
 import 'package:movfix_app/cubit/review_cubit.dart';
+import 'package:movfix_app/cubit/video_cubit.dart';
 import 'package:movfix_app/ui/page/pages.dart';
 
 void main() {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => DetailMovieCubit()),
         BlocProvider(create: (BuildContext context) => RecomendationCubit()),
         BlocProvider(create: (BuildContext context) => ReviewCubit()),
+        BlocProvider(create: (BuildContext context) => VideoCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

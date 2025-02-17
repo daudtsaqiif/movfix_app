@@ -10,7 +10,7 @@ class RecomendationCubit extends Cubit<RecomendationState> {
 
   Future<void> getRecomendation(id) async {
     ApiReturnValue<List<Movie>> result =
-        await MovieServices.getRecommendation(id: id);
+        await MovieServices.getRecommendationMovie(id: id);
     if (result.value != null) {
       emit(RecomendationLoaded(result.value!));
     } else {

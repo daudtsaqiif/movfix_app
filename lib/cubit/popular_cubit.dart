@@ -9,7 +9,7 @@ class PopularCubit extends Cubit<PopularState> {
   PopularCubit() : super(PopularInitial());
 
   Future<void> getPopular() async {
-    ApiReturnValue<List<Movie>> result = await MovieServices.getMovies();
+    ApiReturnValue<List<Movie>> result = await MovieServices.getPopularMovie();
 
     if (result.value != null) {
       emit(PopularLoaded(result.value!));
